@@ -1,0 +1,80 @@
+INSERT INTO apptrackr_applications (job_name, company_name, website_url, date_applied, contact_name, contact_email, contact_phone, interview_date, status, notes, user_id)
+VALUES
+    (
+        'React Front End Engineer',
+        'Madwire',
+        'https://www.madwire.com/',
+        '',
+        '',
+        '',
+        '',
+        '',
+        'Interested',
+        'Fort Collins, CO',
+        3
+    ),
+    (
+        'Software Engineer',
+        'Colorado State University',
+        'https://jobs.colostate.edu/postings/83710',
+        '02/05/21',
+        'Boss',
+        'boss@colostate.edu',
+        '(970)682-3716',
+        '02/16/2021',
+        'Closed',
+        'Followed up on 2/12/21. I turned down the offer.',
+        3
+    ),
+    (
+        'Software Engineer Intern',
+        'Hewlett Packard Enterprise',
+        'https://careers.hpe.com/job/Hewlett-Packard-Enterprise-Ft.-Collins-Software-Engineer-Intern-Ft.Collins-CO-Colorado/121959264?source=indeed',
+        '02/01/2021',
+        'Bill',
+        'bill@hp.com',
+        '(970)432-5634',
+        '02/15/2021',
+        'Applied',
+        'Fort Collins, CO. Waiting on their response to schedule next interview',
+        3
+    ),
+    (
+        'EDU Software Engineer',
+        'Splunk',
+        'https://jobs.jobvite.com/careers/splunk/job/oURpefw8?__jvst=Job%20Board&__jvsd=Indeed',
+        '02/03/2021',
+        'Sam',
+        'sam@splunk.com',
+        '(576)372-3728',
+        '02/10/2021',
+        'Applied',
+        'San Diego, CA. Remote. Waiting on their response to schedule next interview',
+        4
+    ),
+    (
+        'Full Stack Software Engineer',
+        'Olive',
+        'https://oliveai.com/',
+        '',
+        '',
+        '',
+        '',
+        '',
+        'Interested',
+        'Node.js, Javascript. Open to remote.',
+        4
+    ),
+    (
+        'Web Developer',
+        'Toddy LLC',
+        'https://toddycafe.com/',
+        '02/15/2021',
+        'Tod',
+        'tod@toddy.com',
+        '(970)342-4837',
+        '02/26/2021',
+        'Closed',
+        'Not the right fit.',
+        4
+    )

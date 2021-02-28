@@ -1,0 +1,1 @@
+DROP TABLE IF EXISTS apptrackr_applications;
