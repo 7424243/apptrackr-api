@@ -24,6 +24,12 @@ const ApplicationsService = {
         return knex('apptrackr_applications')
             .where({id})
             .delete()
+    },
+    getByUserId(knex, user_id) {
+        return knex
+            .select('*')
+            .from('apptrackr_applications')
+            .where({user_id})
     }
 }
 

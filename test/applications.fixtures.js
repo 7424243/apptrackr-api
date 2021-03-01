@@ -58,7 +58,7 @@ function makeMaliciousApplication() {
         interview_date: '01/12/2021',
         status: 'Closed',
         notes: `Bad image <img src="https://url.to.file.which/does-not.exist" onerror="alert(document.cookie);">. But not <strong>all</strong> bad.`,
-        user_id: 2
+        user_id: 1
     }
     const expectedApplication = {
         ...maliciousApplication,
