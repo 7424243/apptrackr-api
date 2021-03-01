@@ -88,5 +88,13 @@ applicationsRouter
             })
             .catch(next)
     })
+    .delete(requireAuth, (req, res, next) => {
+        const knexInstance = req.app.get('db')
+        ApplicationsService.deleteApplication(knexInstance, req.params.application_id)
+            .then(numRowsAffected => {
+                res.status(204).end()
+            })
+            .catch(next)
+    })
 
 module.exports = applicationsRouter

@@ -19,6 +19,11 @@ const ApplicationsService = {
         return knex('apptrackr_applications')
             .where({id})
             .update(newApplicationFields)
+    },
+    deleteApplication(knex, id) {
+        return knex('apptrackr_applications')
+            .where({id})
+            .delete()
     }
 }
 
