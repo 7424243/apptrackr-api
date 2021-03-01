@@ -44,4 +44,29 @@ resourcesRouter
             .catch(next)
     })
 
+resourcesRouter
+    .route('/:resource_id')
+    .all((req, res, next) => {
+        const knexInstance = req.app.get('db')
+        ResourcesService.getById(knexInstance, req.params.resource_id)
+            .then(resource => {
+                if(!resource) {
+                    return res.status(404).json({
+                        error: {message: `Resource doesn't exist`}
+                    })
+                }
+                res.resource = resource
+                next()
+            })
+            .catch(next)
+    })
+    .delete(requireAuth, (req, res, next) => {
+        const knexInstance = req.app.get('db')
+        ResourcesService.deleteResource(knexInstance, req.params.resource_id)
+            .then(numRowsAffected => {
+                res.status(204).end()
+            })
+            .catch(next)
+    })
+
 module.exports = resourcesRouter

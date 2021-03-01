@@ -7,7 +7,19 @@ const ResourcesService = {
             .then(rows => {
                 return rows[0]
             })
-    }   
+    },
+    getById(knex, id) {
+        return knex
+            .select('*')
+            .from('apptrackr_resources')
+            .where('id', id)
+            .first()
+    },   
+    deleteResource(knex, id) {
+        return knex('apptrackr_resources')
+            .where({id})
+            .delete()
+    },
 }
 
 module.exports = ResourcesService

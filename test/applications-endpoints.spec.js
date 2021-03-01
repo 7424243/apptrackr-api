@@ -371,7 +371,7 @@ describe('Applications Endpoints', () => {
                     })
             })
 
-            it('responds with 204 and removes the recipe', () => {
+            it('responds with 204 and removes the application', () => {
                 const idToRemove = 2
                 const expectedApplications = testApplications.filter(application => application.id !== idToRemove)
                 return supertest(app)

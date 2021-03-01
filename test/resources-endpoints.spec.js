@@ -180,7 +180,82 @@ describe.only('Resources Endpoints', () => {
     })
 
     describe.only('DELETE /api/resources/:resource_id', () => {
-        
+
+        context('Given no resources', () => {
+
+            it('responds with 404', () => {
+                const resourceId = 123456
+                return supertest(app)
+                    .delete(`/api/resources/${resourceId}`)
+                    .expect(404, {error: {message: `Resource doesn't exist`}})
+            })
+        })
+
+        context('Given there are resources in the db', () => {
+
+            beforeEach('insert users and applications', () => {
+                return db
+                    .into('apptrackr_users')
+                    .insert(protectedUsers)
+                    .then(() => {
+                        return db   
+                            .into('apptrackr_resources')
+                            .insert(testResources)
+                    })
+            })
+
+            it('responds with 204 and removes the resource', () => {
+                const idToRemove = 2
+                const expectedResources = testResources.filter(resource => resource.id !== idToRemove)
+                return supertest(app)
+                    .delete(`/api/resources/${idToRemove}`)
+                    .set('Authorization', makeAuthHeader(testUsers[0]))
+                    .expect(204)
+                    .then(() => {
+                        supertest(app)
+                            .get('/api/resources')
+                            .expect(expectedResources)
+                    })
+            })
+        })
+
+        context('DELETE endpoint is protected', () => {
+
+            beforeEach('insert users and resources', () => {
+                return db
+                    .into('apptrackr_users')
+                    .insert(protectedUsers)
+                    .then(() => {
+                        return db   
+                            .into('apptrackr_resources')
+                            .insert(testResources)
+                    })
+            })
+
+            const idToRemove = 2
+
+            it(`responds with 401 'Missing bearer token' when no basic token`, () => {
+                return supertest(app)
+                    .delete(`/api/resources/${idToRemove}`)
+                    .expect(401, {error: `Missing bearer token`})
+            })
+
+            it(`responds with 401 'Unauthorized request' when no credentials in token`, () => {
+                const userNoCreds = {user_name: '', password: ''}
+                return supertest(app)
+                    .delete(`/api/resources/${idToRemove}`)
+                    .set('Authorization', makeAuthHeader(userNoCreds))
+                    .expect(401, {error: 'Unauthorized request'})
+            })
+
+            it(`responds with 401 'Unauthorized request' when invalid subject in payload`, () => {
+                const invalidUser = {user_name: 'no-exists', id: 1}
+                return supertest(app)
+                    .delete(`/api/resources/${idToRemove}`)
+                    .set('Authorization', makeAuthHeader(invalidUser))
+                    .expect(401, {error: 'Unauthorized request'})
+            })        
+        })
     })
 
 })
