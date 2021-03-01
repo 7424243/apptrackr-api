@@ -428,7 +428,7 @@ describe('Applications Endpoints', () => {
         })
     })
 
-    describe.only('GET /api/applications/user/:user_id', () => {
+    describe('GET /api/applications/user/:user_id', () => {
 
         const userId = 1
         const userApplications = testApplications.filter(application => application.user_id == userId)
