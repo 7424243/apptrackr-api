@@ -4,7 +4,6 @@ const {makeApplicationsArray, makeMaliciousApplication} = require('./application
 const {makeUsersArray} = require('./users.fixtures')
 const {hashUserPassword, makeAuthHeader} = require('./test-helpers')
 
-
 describe('Applications Endpoints', () => {
 
     const testUsers = makeUsersArray()
@@ -431,7 +430,7 @@ describe('Applications Endpoints', () => {
         const userId = 1
         const userApplications = testApplications.filter(application => application.user_id == userId)
 
-        context('Given no recipes for the user', () => {
+        context('Given no applications for the user', () => {
 
             it('responds with 200 and an empty list', () => {
                 return db
@@ -468,7 +467,7 @@ describe('Applications Endpoints', () => {
             })
         })
 
-        context(`Given an XSS attack recipe`, () => {
+        context(`Given an XSS attack application`, () => {
 
             const {maliciousApplication, expectedApplication} = makeMaliciousApplication()
 
@@ -494,7 +493,7 @@ describe('Applications Endpoints', () => {
             })
         })
 
-        context('GET /api/applications/users/:user_id as a protected endpoint', () => {
+        context('GET /api/applications/user/:user_id as a protected endpoint', () => {
             
             beforeEach('insert users and applications', () => {
                 return db

@@ -3,7 +3,6 @@ const app = require('../src/app')
 const {hashUserPassword} = require('./test-helpers')
 const {makeUsersArray} = require('./users.fixtures')
 const jwt = require('jsonwebtoken')
-const supertest = require('supertest')
 
 describe('Auth Endpoints', () => {
 

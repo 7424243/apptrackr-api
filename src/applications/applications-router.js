@@ -106,9 +106,7 @@ applicationsRouter
         let base64 = base64URL.replace('-', '+').replace('_', '/')
         let decodedToken = JSON.parse(Buffer.from(base64, 'base64').toString('binary'))
         const user_id = decodedToken.user_id
-        
         const knexInstance = req.app.get('db')
-
         ApplicationsService.getByUserId(knexInstance, user_id)
             .then(applications => {
                 res.json(applications.map(serializeApplication))

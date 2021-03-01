@@ -69,4 +69,21 @@ resourcesRouter
             .catch(next)
     })
 
+resourcesRouter
+    .route('/user/:user_id')
+    .get(requireAuth, (req, res, next) => {
+        const authToken = req.get('Authorization')
+        const bearerToken = authToken.slice(7, authToken.length)
+        const base64URL = bearerToken.split('.')[1]
+        let base64 = base64URL.replace('-', '+').replace('_', '/')
+        let decodedToken = JSON.parse(Buffer.from(base64, 'base64').toString('binary'))
+        const user_id = decodedToken.user_id
+        const knexInstance = req.app.get('db')
+        ResourcesService.getByUserId(knexInstance, user_id)
+            .then(resources => {
+                res.json(resources.map(serializeResource))
+            })
+            .catch(next)
+    })
+
 module.exports = resourcesRouter

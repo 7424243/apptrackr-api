@@ -3,10 +3,8 @@ const knex = require('knex')
 const {makeResourcesArray, makeMaliciousResource} = require('./resources.fixtures')
 const {makeUsersArray} = require('./users.fixtures')
 const {hashUserPassword, makeAuthHeader} = require('./test-helpers')
-const supertest = require('supertest')
-const { expect } = require('chai')
 
-describe.only('Resources Endpoints', () => {
+describe('Resources Endpoints', () => {
 
     const testUsers = makeUsersArray()
     const testResources = makeResourcesArray()
@@ -179,7 +177,7 @@ describe.only('Resources Endpoints', () => {
         })
     })
 
-    describe.only('DELETE /api/resources/:resource_id', () => {
+    describe('DELETE /api/resources/:resource_id', () => {
 
         context('Given no resources', () => {
 
@@ -255,6 +253,115 @@ describe.only('Resources Endpoints', () => {
                     .set('Authorization', makeAuthHeader(invalidUser))
                     .expect(401, {error: 'Unauthorized request'})
             })        
+        })
+    })
+
+    describe('GET /api/resources/user/:user_id', () => {
+
+        const userId = 1
+        const userResources = testResources.filter(resource => resource.user_id == userId)
+    
+        context('Given no resources for the user', () => {
+            
+            it('responds with 200 and an empty list', () => {
+                return db
+                    .into('apptrackr_users')
+                    .insert(protectedUsers)
+                    .then(() => {
+                        return supertest(app)
+                            .get(`/api/resources/user/${userId}`)
+                            .set('Authorization', makeAuthHeader(testUsers[0]))
+                            .expect(200, [])
+                    })
+            })
+
+        })
+
+        context('Given there are resources for the user in db', () => {
+            
+            beforeEach('insert users and resources', () => {
+                return db
+                    .into('apptrackr_users')
+                    .insert(protectedUsers)
+                    .then(() => {
+                        return db   
+                            .into('apptrackr_resources')
+                            .insert(testResources)
+                    })
+            })  
+
+            it(`responds with 200 and all of the user's resources`, () => {
+                return supertest(app)
+                    .get(`/api/resources/user/${userId}`)
+                    .set('Authorization', makeAuthHeader(testUsers[0]))
+                    .expect(200, userResources)
+            })
+
+        })
+
+        context('Given an XSS attack resource', () => {
+
+            const {maliciousResource, expectedResource} = makeMaliciousResource()
+
+            beforeEach('insert malicious resources', () => {
+                return db
+                    .into('apptrackr_users')
+                    .insert(protectedUsers)
+                    .then(() => {
+                        return db
+                            .into('apptrackr_resources')
+                            .insert(maliciousResource)
+                    })
+            })
+
+            it(`removes XSS attack content`, () => {
+                return supertest(app)
+                    .get(`/api/resources/user/${userId}`)
+                    .set('Authorization', makeAuthHeader(testUsers[0]))
+                    .expect(res => {
+                        expect(res.body[0].resource_name).to.eql(expectedResource.resource_name)
+                        expect(res.body[0].notes).to.eql(expectedResource.notes)
+                    })
+            })
+        })
+
+        context('GET /api/resources/user/:user_id as a protected endpoint', () => {
+
+            beforeEach('insert users and resources', () => {
+                return db
+                    .into('apptrackr_users')
+                    .insert(protectedUsers)
+                    .then(() => {
+                        return db   
+                            .into('apptrackr_resources')
+                            .insert(testResources)
+                    })
+            })
+
+            const userId = 1
+
+            it(`responds with 401 'Missing bearer token' when no bearer token`, () => {
+                return supertest(app)
+                    .get(`/api/resources/user/${userId}`)
+                    .expect(401, {error: `Missing bearer token`})
+            })
+
+            it(`responds 401 'Unauthorized request' when no credentials in token`, () => {
+                const userNoCreds = {user_name: '', password: ''}
+                return supertest(app)
+                    .get(`/api/resources/user/${userId}`)
+                    .set('Authorization', makeAuthHeader(userNoCreds))
+                    .expect(401, {error: `Unauthorized request`})
+            })
+
+            it(`responds 401 'Unauthorized request' when invalid subject in payload`, () => {
+                const invalidUser = {user_name: 'no-exists', id: 1}
+                return supertest(app)
+                    .get(`/api/resources/user/${userId}`)
+                    .set('Authorization', makeAuthHeader(invalidUser))
+                    .expect(401, {error: 'Unauthorized request'})
+            })
+
         })
     })
 

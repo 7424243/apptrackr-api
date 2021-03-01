@@ -2,8 +2,6 @@ const knex = require('knex')
 const app = require('../src/app')
 const {makeUsersArray, makeMaliciousUser} = require('./users.fixtures')
 const bcrypt = require('bcryptjs')
-const { expect } = require('chai')
-const supertest = require('supertest')
 
 describe('Users Endpoints', () => {
 

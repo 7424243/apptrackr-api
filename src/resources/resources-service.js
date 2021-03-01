@@ -20,6 +20,12 @@ const ResourcesService = {
             .where({id})
             .delete()
     },
+    getByUserId(knex, user_id) {
+        return knex
+            .select('*')
+            .from('apptrackr_resources')
+            .where({user_id})
+    }
 }
 
 module.exports = ResourcesService
