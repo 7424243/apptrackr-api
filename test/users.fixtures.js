@@ -17,6 +17,25 @@ function makeUsersArray() {
     ]
 }
 
+function makeMaliciousUser() { 
+    const maliciousUser = {
+        id: 911,
+        full_name: 'Naughty naughty very naughty <script>alert("xss");</script>',
+        user_name: 'test username',
+        password: 'Testing1234!',
+        date_created: new Date().toISOString()
+    }
+    const expectedUser = {
+        ...maliciousUser,
+        full_name: 'Naughty naughty very naughty &lt;script&gt;alert(\"xss\");&lt;/script&gt;'
+    }
+    return {
+        maliciousUser,
+        expectedUser
+    }
+}
+
 module.exports = {
-    makeUsersArray
+    makeUsersArray,
+    makeMaliciousUser
 }
