@@ -3,9 +3,7 @@ const knex = require('knex')
 const {makeApplicationsArray, makeMaliciousApplication} = require('./applications.fixtures')
 const {makeUsersArray} = require('./users.fixtures')
 const {hashUserPassword, makeAuthHeader} = require('./test-helpers')
-const supertest = require('supertest')
-const { expect } = require('chai')
-const { before } = require('mocha')
+
 
 describe('Applications Endpoints', () => {
 
