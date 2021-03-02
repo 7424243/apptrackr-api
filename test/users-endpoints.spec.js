@@ -202,7 +202,7 @@ describe('Users Endpoints', () => {
                     .post('/api/users/')
                     .send(newDuplicateUserName)
                     .expect(400, {
-                        error: {message: 'Username already taken'}
+                        error: {message: 'Username already exists'}
                     })
             })
         })

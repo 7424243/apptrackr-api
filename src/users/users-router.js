@@ -38,7 +38,7 @@ usersRouter
             .then(hasUserWithUserName => {
                 if(hasUserWithUserName) {
                     return res.status(400).json({
-                        error: {message: `Username already taken`}
+                        error: {message: `Username already exists`}
                     })
                 }
                 return UsersService.hashPassword(password)
