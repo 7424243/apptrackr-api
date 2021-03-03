@@ -3,6 +3,8 @@ const knex = require('knex')
 const {makeApplicationsArray, makeMaliciousApplication} = require('./applications.fixtures')
 const {makeUsersArray} = require('./users.fixtures')
 const {hashUserPassword, makeAuthHeader} = require('./test-helpers')
+const supertest = require('supertest')
+const { expect } = require('chai')
 
 describe('Applications Endpoints', () => {
 
@@ -192,6 +194,107 @@ describe('Applications Endpoints', () => {
                     .post('/api/applications/')
                     .set('Authorization', makeAuthHeader(invalidUser))
                     .send(newApplication)
+                    .expect(401, {error: 'Unauthorized request'})
+            })
+        })
+    })
+
+    describe('GET/api/applications/:application_id', () => {
+
+        context('Given no applications', () => {
+            it('responds with 404', () => {
+                const applicationId = 123456
+                return supertest(app)
+                    .get(`/api/applications/${applicationId}`)
+                    .set('Authorization', makeAuthHeader(testUsers[0]))
+                    .expect(404, {error: {message: `Application doesn't exist`}})
+            })
+        })
+
+        context('Given there are applications in the database', () => {
+
+            beforeEach('insert users and applications', () => {
+                return db
+                    .into('apptrackr_users')
+                    .insert(protectedUsers)
+                    .then(() => {
+                        return db
+                            .into('apptrackr_applications')
+                            .insert(testApplications)
+                    })
+            })
+
+            it('responds with 200 and the application', () => {
+                const applicationId = 1
+                const expectedApplication = testApplications[applicationId - 1]
+                return supertest(app)
+                    .get(`/api/applications/${applicationId}`)
+                    .set('Authorization', makeAuthHeader(testUsers[0]))
+                    .expect(200, expectedApplication)
+            })
+        })
+
+        context('Given an XSS attack', () => {
+
+            const {maliciousApplication, expectedApplication} = makeMaliciousApplication()
+
+            beforeEach('insert users and applications', () => {
+                return db
+                    .into('apptrackr_users')
+                    .insert(protectedUsers)
+                    .then(() => {
+                        return db
+                            .into('apptrackr_applications')
+                            .insert(maliciousApplication)
+                    })
+            })
+
+            it('removes XSS attack content', () => {
+                return supertest(app)
+                    .get(`/api/applications/${maliciousApplication.id}`)
+                    .set('Authorization', makeAuthHeader(testUsers[0]))
+                    .expect(200)
+                    .expect(res => {
+                        expect(res.body.job_name).to.eql(expectedApplication.job_name)
+                        expect(res.body.notes).to.eql(expectedApplication.notes)
+                    })
+            })
+        })
+
+        context('GET /api/applications/:application_id as a protected endpoint', () => {
+            
+            beforeEach('insert users and applications', () => {
+                return db
+                    .into('apptrackr_users')
+                    .insert(protectedUsers)
+                    .then(() => {
+                        return db   
+                            .into('apptrackr_applications')
+                            .insert(testApplications)
+                    })
+            })
+
+            const applicationId = 1
+
+            it(`responds with 401 'Missing bearer token' when no bearer token`, () => {
+                return supertest(app)
+                    .get(`/api/applications/${applicationId}`)
+                    .expect(401, {error: `Missing bearer token`})
+            })
+
+            it(`responds 401 'Unauthorized request' when no credentials in token`, () => {
+                const userNoCreds = {user_name: '', password: ''}
+                return supertest(app)
+                    .get(`/api/applications/${applicationId}`)
+                    .set('Authorization', makeAuthHeader(userNoCreds))
+                    .expect(401, {error: `Unauthorized request`})
+            })
+
+            it(`responds 401 'Unauthorized request' when invalid subject in payload`, () => {
+                const invalidUser = {user_name: 'no-exists', id: 1}
+                return supertest(app)
+                    .get(`/api/applications/${applicationId}`)
+                    .set('Authorization', makeAuthHeader(invalidUser))
                     .expect(401, {error: 'Unauthorized request'})
             })
         })

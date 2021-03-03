@@ -72,6 +72,9 @@ applicationsRouter
             })
             .catch(next)
     })
+    .get(requireAuth, (req, res, next) => {
+        res.json(serializeApplication(res.application))
+    })
     .patch(requireAuth, jsonParser, (req, res, next) => {
         const {job_name, company_name, website_url, date_applied, contact_name, contact_phone, contact_email, interview_date, status, notes} = req.body
         const applicationToUpdate = {job_name, company_name, website_url, date_applied, contact_name, contact_phone, contact_email, interview_date, status, notes}
