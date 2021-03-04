@@ -5,4 +5,5 @@ module.exports = {
     TEST_DATABASE_URL: process.env.TEST_DATABASE_URL || 'postgresql://samsheets@localhost/apptrackr-test',
     API_BASE_URL: process.env.REACT_APP_API_BASE_URL || 'http://localhost:3000/api',
     JWT_SECRET: process.env.JWT_SECRET ||'jwt-secret',
+    CLIENT_ORIGIN: process.env.CLIENT_ORIGIN || 'http://localhost:3000',
 }
