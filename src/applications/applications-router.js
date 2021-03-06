@@ -86,8 +86,11 @@ applicationsRouter
         }
         const knexInstance = req.app.get('db')
         ApplicationsService.updateApplication(knexInstance, req.params.application_id, applicationToUpdate)
-            .then(numRowsAffected => {
-                res.status(204).end()
+            .then(updatedApplication => {
+                res
+                    .status(200)
+                    .location(path.posix.join(req.originalUrl, `/${updatedApplication.id}`))
+                    .json(serializeApplication(updatedApplication))
             })
             .catch(next)
     })
