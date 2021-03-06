@@ -89,7 +89,7 @@ applicationsRouter
             .then(updatedApplication => {
                 res
                     .status(200)
-                    .location(path.posix.join(req.originalUrl, `/${updatedApplication.id}`))
+                    .location(path.posix.join(req.originalUrl))
                     .json(serializeApplication(updatedApplication))
             })
             .catch(next)

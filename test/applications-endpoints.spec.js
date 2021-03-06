@@ -327,7 +327,7 @@ describe('Applications Endpoints', () => {
                     })
             })
 
-            it('it responds with 204 and updates the application', () => {
+            it.only('it responds with 204 and updates the application', () => {
                 const idToUpdate = 1
                 const updateApplication = {
                     job_name: 'Test 1',
@@ -350,7 +350,22 @@ describe('Applications Endpoints', () => {
                     .patch(`/api/applications/${idToUpdate}`)
                     .set('Authorization', makeAuthHeader(testUsers[0]))
                     .send(updateApplication)
-                    .expect(204)
+                    .expect(200)
+                    .expect(res => {
+                        expect(res.body.job_name).to.eql(expectedApplication.job_name)
+                        expect(res.body.company_name).to.eql(expectedApplication.company_name)
+                        expect(res.body.website_url).to.eql(expectedApplication.website_url)
+                        expect(res.body.date_applied).to.eql(expectedApplication.date_applied)
+                        expect(res.body.contact_name).to.eql(expectedApplication.contact_name)
+                        expect(res.body.contact_phone).to.eql(expectedApplication.contact_phone)
+                        expect(res.body.contact_email).to.eql(expectedApplication.contact_email)
+                        expect(res.body.interview_date).to.eql(expectedApplication.interview_date)
+                        expect(res.body.status).to.eql(expectedApplication.status)
+                        expect(res.body.notes).to.eql(expectedApplication.notes)
+                        expect(res.body.user_id).to.eql(expectedApplication.user_id)
+                        expect(res.body).to.have.property('id')
+                        expect(res.header.location).to.eql(`/api/applications/${res.body.id}`)
+                    })
                     .then(() => {
                         supertest(app)
                             .get(`/api/applications/${idToUpdate}`)
@@ -371,7 +386,7 @@ describe('Applications Endpoints', () => {
                     .patch(`/api/applications/${idToUpdate}`)
                     .set('Authorization', makeAuthHeader(testUsers[0]))
                     .send(updateApplication)
-                    .expect(204)
+                    .expect(200)
                     .then(() => {
                         supertest(app)
                             .get(`/api/applications/${idToUpdate}`)
