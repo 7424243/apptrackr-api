@@ -3,7 +3,7 @@ const express = require('express')
 const morgan = require('morgan')
 const cors = require('cors')
 const helmet = require('helmet')
-const {NODE_ENV, CLIENT_ORIGIN} = require('./config')
+const {NODE_ENV, CLIENT_ORIGIN, DATABASE_URL} = require('./config')
 const authRouter = require('./auth/auth-router')
 const usersRouter = require('./users/users-router')
 const applicationsRouter = require('./applications/applications-router')
@@ -16,13 +16,21 @@ const morganOption = (NODE_ENV === 'production') ? 'tiny' : 'common'
 app.use(morgan(morganOption))
 app.use(helmet())
 
-app.use(cors())
-app.use(
-    cors({
-        origin: CLIENT_ORIGIN
-    })
-)
-// const allowedOrigins = ['http://localhost:3000', 'https://apptrackr-client.vercel.app/']
+// app.use(cors())
+// app.use(
+//     cors({
+//         origin: CLIENT_ORIGIN
+//     })
+//)
+
+const whitelist = ['http://localhost:3000', 'https://apptrackr-client.vercel.app/']
+const corsOptions = {
+    origin: function(origin, callback) {
+        let originWhitelisted = whitelist.indexOf(origin) !== -1
+        callback(null, originWhitelisted)
+    }
+}
+app.use(cors(corsOptions))
 // app.use(cors({
 //     origin: function(origin, callback){
 //       // allow requests with no origin - like mobile apps, curl, postman
