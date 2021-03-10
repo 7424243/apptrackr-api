@@ -23,7 +23,7 @@ app.use(helmet())
 //     })
 //)
 
-const whitelist = ['http://localhost:3000', 'https://apptrackr-client.vercel.app/']
+const whitelist = ['http://localhost:3000', 'https://apptrackr-client.vercel.app']
 const corsOptions = {
     origin: function(origin, callback) {
         let originWhitelisted = whitelist.indexOf(origin) !== -1
