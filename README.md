@@ -1,26 +1,75 @@
-# Express Boilerplate!
+# apptrackr API!
 
-This is a boilerplate project used for starting new projects!
+This API was originally built for [apptrackr](https://github.com/7424243/apptrackr-client) app.
 
-## Set up
+## Documentation
 
-Complete the following steps to start a new project (NEW-PROJECT-NAME):
+* Base URL: 'https://peaceful-dawn-10295.herokuapp.com/api'
+* Response Format: JSON
 
-1. Clone this repository to your local machine `git clone BOILERPLATE-URL NEW-PROJECTS-NAME`
-2. `cd` into the cloned repository
-3. Make a fresh start of the git history for this project with `rm -rf .git && git init`
-4. Install the node dependencies `npm install`
-5. Move the example Environment file to `.env` that will be ignored by git and read by the express server `mv example.env .env`
-6. Edit the contents of the `package.json` to use NEW-PROJECT-NAME instead of `"name": "express-boilerplate",`
+### Applications Endpoints
 
-## Scripts
+* Required Parameters: job_name (string), company_name (string), status (string), user_id (integer)
+* Optional Parameters: website_url (string), date_applied (string), contact_name (string), contact_email (string), contact_phone (string), interview_date (string), notes (string)
+* ```POST /applications/``` >> create a new job application entry (protected endpoint)
+* ```PATCH /applications/:application_id``` >> edit a job application entry by application id (protected endpoint)
+* ```DELETE /applications/:application_id``` >> delete a job application entry by application id (protected endpoint)
+* ```GET /applications/:application_id``` >> get a job application entry by application id (protected endpoint)
+Example Response: 
+    ```
+    {
+        "id": 8,
+        "job_name": "Software Engineer",
+        "company_name": "Colorado State University",
+        "website_url": "https://jobs.colostate.edu/postings/83710",
+        "date_applied": "2021-03-07T19:34:41.000Z",
+        "contact_name": "Boss",
+        "contact_phone": "(970)682-3716",
+        "contact_email": "boss@colostate.edu",
+        "interview_date": "2021-03-15T19:34:41.000Z",
+        "status": "Closed",
+        "notes": "Followed up on 2/12/21. I turned down the offer - not a good fit.",
+        "user_id": 3
+    }
+    ```
+* ```GET /applications/user/:user_id``` >> get all job applications for a specific user by user id (protected endpoint)
 
-Start the application `npm start`
+### Resources Endpoints
 
-Start nodemon for the application `npm run dev`
+* Required Parameters: resource_name (string), resource_url (strong), type (string), user_id (integer)
+* Optional Parameters: notes (string)
+* ```POST /resources/``` >> create a new resource (protected endpoint)
+* ```DELETE /resources/:resource_id``` >> delete a resource by resource id (protected endpoint)
+* ```GET /resources/user/user_id``` >> get all resources for a specific user by user user id (protected endpoint)
+Example Response: 
+```
+    {
+        "id": 1,
+        "resource_name": "Indeed",
+        "resource_url": "https://www.indeed.com/",
+        "type": "Job Resource",
+        "notes": "a great place to look for job postings",
+        "user_id": 2
+    }
+```
 
-Run the tests `npm test`
+### Users Endpoint
 
-## Deploying
+* Required Parameters: full_name (string), user_name (string), password (string), date_created (timestamptz)
+* Optional Parameters: none
+* ```POST /users/``` >> create a new user
 
-When your new project is ready for deployment, add a new Heroku application with `heroku create`. This will make a new git remote called "heroku" and you can then `npm run deploy` which will push to this remote's main branch.
+### Authorization Endpoint 
+* Required Parameters: user_name (string), password (string)
+* ```POST /auth/login```  >> login using JWT authentication
+
+## Summary
+
+This server was created in order to easily organize job applications. The database is made up of 3 tables: one for users, one for job applications, and one for resources. The API allows GET, POST, DELETE and PATCH requests based on the endpoint. Protected endpoints utilize JWT Authentication.
+
+## Built With
+
+* Node
+* Express
+* PostgreSQL
+* JavaScript
