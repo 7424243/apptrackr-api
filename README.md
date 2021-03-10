@@ -40,7 +40,7 @@ Example Response:
 * Optional Parameters: notes (string)
 * ```POST /resources/``` >> create a new resource (protected endpoint)
 * ```DELETE /resources/:resource_id``` >> delete a resource by resource id (protected endpoint)
-* ```GET /resources/user/user_id``` >> get all resources for a specific user by user user id (protected endpoint)
+* ```GET /resources/user/user_id``` >> get all resources for a specific user by user id (protected endpoint)
 Example Response: 
 ```
     {
