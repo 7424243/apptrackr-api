@@ -27,4 +27,4 @@ VALUES
         'Other Resource',
         '',
         3
-    )
+    );

@@ -21,7 +21,6 @@ const ApplicationsService = {
             .update(newApplicationFields)
             .returning('*')
             .then(rows => {
-                console.log(rows)
                 return rows[0]
             })
     },

@@ -36,6 +36,7 @@ usersRouter
         const knexInstance = req.app.get('db')
         UsersService.hasUserWithUserName(knexInstance, user_name)
             .then(hasUserWithUserName => {
+                //violates UNIQUE constraint on user_name
                 if(hasUserWithUserName) {
                     return res.status(400).json({
                         error: {message: `Username already exists`}

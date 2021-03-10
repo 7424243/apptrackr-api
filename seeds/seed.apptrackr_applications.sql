@@ -77,4 +77,4 @@ VALUES
         'Closed',
         'Not the right fit.',
         4
-    )
+    );

@@ -9,7 +9,6 @@ describe('Resources Endpoints', () => {
     const testUsers = makeUsersArray()
     const testResources = makeResourcesArray()
     const protectedUsers = hashUserPassword(testUsers)
-
     let db
     before('make knex instance', () => {
         db = knex({
@@ -18,13 +17,10 @@ describe('Resources Endpoints', () => {
         })
         app.set('db', db)
     })
-
     after('disconnect from db', () => db.destroy())
-
     before('clean the tables', () => db.raw('TRUNCATE apptrackr_users, apptrackr_resources RESTART IDENTITY CASCADE'))
-
     afterEach('cleanup', () => db.raw('TRUNCATE apptrackr_users, apptrackr_resources RESTART IDENTITY CASCADE'))
-
+    
     describe('POST /api/resources', () => {
 
         beforeEach('insert users', () => {
@@ -173,8 +169,10 @@ describe('Resources Endpoints', () => {
                     .set('Authorization', makeAuthHeader(invalidUser))
                     .send(newResource)
                     .expect(401, {error: 'Unauthorized request'})
-            })            
+            }) 
+
         })
+
     })
 
     describe('DELETE /api/resources/:resource_id', () => {
@@ -187,6 +185,7 @@ describe('Resources Endpoints', () => {
                     .delete(`/api/resources/${resourceId}`)
                     .expect(404, {error: {message: `Resource doesn't exist`}})
             })
+
         })
 
         context('Given there are resources in the db', () => {
@@ -215,6 +214,7 @@ describe('Resources Endpoints', () => {
                             .expect(expectedResources)
                     })
             })
+
         })
 
         context('DELETE endpoint is protected', () => {
@@ -229,7 +229,6 @@ describe('Resources Endpoints', () => {
                             .insert(testResources)
                     })
             })
-
             const idToRemove = 2
 
             it(`responds with 401 'Missing bearer token' when no basic token`, () => {
@@ -252,8 +251,10 @@ describe('Resources Endpoints', () => {
                     .delete(`/api/resources/${idToRemove}`)
                     .set('Authorization', makeAuthHeader(invalidUser))
                     .expect(401, {error: 'Unauthorized request'})
-            })        
+            }) 
+
         })
+
     })
 
     describe('GET /api/resources/user/:user_id', () => {
@@ -302,7 +303,6 @@ describe('Resources Endpoints', () => {
         context('Given an XSS attack resource', () => {
 
             const {maliciousResource, expectedResource} = makeMaliciousResource()
-
             beforeEach('insert malicious resources', () => {
                 return db
                     .into('apptrackr_users')
@@ -323,6 +323,7 @@ describe('Resources Endpoints', () => {
                         expect(res.body[0].notes).to.eql(expectedResource.notes)
                     })
             })
+
         })
 
         context('GET /api/resources/user/:user_id as a protected endpoint', () => {
@@ -337,7 +338,6 @@ describe('Resources Endpoints', () => {
                             .insert(testResources)
                     })
             })
-
             const userId = 1
 
             it(`responds with 401 'Missing bearer token' when no bearer token`, () => {
@@ -363,6 +363,7 @@ describe('Resources Endpoints', () => {
             })
 
         })
+        
     })
 
 })

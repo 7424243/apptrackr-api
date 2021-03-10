@@ -76,6 +76,7 @@ resourcesRouter
         const bearerToken = authToken.slice(7, authToken.length)
         const base64URL = bearerToken.split('.')[1]
         let base64 = base64URL.replace('-', '+').replace('_', '/')
+        //decode token in order to obtain user_id
         let decodedToken = JSON.parse(Buffer.from(base64, 'base64').toString('binary'))
         const user_id = decodedToken.user_id
         const knexInstance = req.app.get('db')

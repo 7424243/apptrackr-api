@@ -11,7 +11,6 @@ describe('Applications Endpoints', () => {
     const testUsers = makeUsersArray()
     const testApplications = makeApplicationsArray()
     const protectedUsers = hashUserPassword(testUsers)
-
     let db
     before('make knex instance', () => {
         db = knex({
@@ -20,13 +19,10 @@ describe('Applications Endpoints', () => {
         })
         app.set('db', db)
     })
-
     after('disconnect from db', () => db.destroy())
-
     before('clean the tables', () => db.raw('TRUNCATE apptrackr_users, apptrackr_applications RESTART IDENTITY CASCADE'))
-
     afterEach('cleanup', () => db.raw('TRUNCATE apptrackr_users, apptrackr_applications RESTART IDENTITY CASCADE'))
-
+    
     describe('POST /api/applications/', () => {
 
         beforeEach('insert users', () => {
@@ -196,12 +192,15 @@ describe('Applications Endpoints', () => {
                     .send(newApplication)
                     .expect(401, {error: 'Unauthorized request'})
             })
+
         })
+
     })
 
     describe('GET/api/applications/:application_id', () => {
 
         context('Given no applications', () => {
+
             it('responds with 404', () => {
                 const applicationId = 123456
                 return supertest(app)
@@ -209,6 +208,7 @@ describe('Applications Endpoints', () => {
                     .set('Authorization', makeAuthHeader(testUsers[0]))
                     .expect(404, {error: {message: `Application doesn't exist`}})
             })
+
         })
 
         context('Given there are applications in the database', () => {
@@ -232,12 +232,12 @@ describe('Applications Endpoints', () => {
                     .set('Authorization', makeAuthHeader(testUsers[0]))
                     .expect(200, expectedApplication)
             })
+
         })
 
         context('Given an XSS attack', () => {
 
             const {maliciousApplication, expectedApplication} = makeMaliciousApplication()
-
             beforeEach('insert users and applications', () => {
                 return db
                     .into('apptrackr_users')
@@ -259,6 +259,7 @@ describe('Applications Endpoints', () => {
                         expect(res.body.notes).to.eql(expectedApplication.notes)
                     })
             })
+
         })
 
         context('GET /api/applications/:application_id as a protected endpoint', () => {
@@ -273,7 +274,6 @@ describe('Applications Endpoints', () => {
                             .insert(testApplications)
                     })
             })
-
             const applicationId = 1
 
             it(`responds with 401 'Missing bearer token' when no bearer token`, () => {
@@ -297,12 +297,15 @@ describe('Applications Endpoints', () => {
                     .set('Authorization', makeAuthHeader(invalidUser))
                     .expect(401, {error: 'Unauthorized request'})
             })
+
         })
+
     })
 
     describe('PATCH /api/applications/:application_id', () => {
 
         context('Given no applications', () => {
+
             it('responds with 404', () => {
                 const applicationId = 123456
                 return supertest(app)
@@ -312,6 +315,7 @@ describe('Applications Endpoints', () => {
                         error: {message: `Application doesn't exist`}
                     })
             })
+
         })
 
         context('Given there are applications in the database', () => {
@@ -399,6 +403,7 @@ describe('Applications Endpoints', () => {
                         error: {message: `Request must contain either 'job_name', 'company_name', 'website_url', 'date_applied', 'contact_name', 'contact_phone', 'contact_email', 'interview_date', 'status', or 'notes'`}
                     })
             })
+
         })
 
         context('PATCH endpoint is protected', () => {
@@ -413,7 +418,6 @@ describe('Applications Endpoints', () => {
                             .insert(testApplications)
                     })
             })
-
             const idToUpdate = 1
             const updateApplication = {
                 job_name: 'Test 1',
@@ -468,6 +472,7 @@ describe('Applications Endpoints', () => {
                     .delete(`/api/applications/${applicationId}`)
                     .expect(404, {error: {message: `Application doesn't exist`}})
             })
+
         })
 
         context('Given there are applications in the db', () => {
@@ -496,6 +501,7 @@ describe('Applications Endpoints', () => {
                             .expect(expectedApplications)
                     })
             })
+
         })
 
         context('DELETE endpoint is protected', () => {
@@ -510,7 +516,6 @@ describe('Applications Endpoints', () => {
                             .insert(testApplications)
                     })
             })
-
             const idToRemove = 2
 
             it(`responds with 401 'Missing bearer token' when no basic token`, () => {
@@ -536,6 +541,7 @@ describe('Applications Endpoints', () => {
             })
 
         })
+
     })
 
     describe('GET /api/applications/user/:user_id', () => {
@@ -578,6 +584,7 @@ describe('Applications Endpoints', () => {
                     .set('Authorization', makeAuthHeader(testUsers[0]))
                     .expect(200, userApplications)
             })
+
         })
 
         context(`Given an XSS attack application`, () => {
@@ -604,6 +611,7 @@ describe('Applications Endpoints', () => {
                         expect(res.body[0].notes).to.eql(expectedApplication.notes)
                     })
             })
+
         })
 
         context('GET /api/applications/user/:user_id as a protected endpoint', () => {
@@ -618,7 +626,6 @@ describe('Applications Endpoints', () => {
                             .insert(testApplications)
                     })
             })
-
             const userId = 1
 
             it(`responds with 401 'Missing bearer token' when no bearer token`, () => {
@@ -642,7 +649,9 @@ describe('Applications Endpoints', () => {
                     .set('Authorization', makeAuthHeader(invalidUser))
                     .expect(401, {error: 'Unauthorized request'})
             })
+
         })
+
     })
 
 })

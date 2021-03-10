@@ -9,7 +9,6 @@ describe('Auth Endpoints', () => {
     const testUsers = makeUsersArray()
     const testUser = testUsers[0]
     const protectedUsers = hashUserPassword(testUsers)
-
     let db
     before('make knex instance', () => {
         db = knex({
@@ -18,11 +17,8 @@ describe('Auth Endpoints', () => {
         })
         app.set('db', db)
     })
-
     after('disconnect from db', () => db.destroy())
-
     before('clean the table', () => db.raw('TRUNCATE apptrackr_users RESTART IDENTITY CASCADE'))
-
     afterEach('cleanup', () => db.raw('TRUNCATE apptrackr_users RESTART IDENTITY CASCADE'))
 
     describe('POST /api/auth/login', () => {
@@ -87,5 +83,7 @@ describe('Auth Endpoints', () => {
                     authToken: expectedToken
                 })
         })
+
     })
+    
 })

@@ -49,5 +49,5 @@ function makeMaliciousResource() {
 
 module.exports = {
     makeResourcesArray,
-    makeMaliciousResource,
+    makeMaliciousResource
 }

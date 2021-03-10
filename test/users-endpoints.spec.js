@@ -6,7 +6,6 @@ const bcrypt = require('bcryptjs')
 describe('Users Endpoints', () => {
 
     const testUsers = makeUsersArray()
-
     let db
     before('make knex instance', () => {
         db = knex({
@@ -15,16 +14,12 @@ describe('Users Endpoints', () => {
         })
         app.set('db', db)
     })
-
     after('disconnect from db', () => db.destroy())
-
     before('clean the table', () => db.raw('TRUNCATE apptrackr_users RESTART IDENTITY CASCADE'))
-    
     afterEach('cleanup', () => db.raw('TRUNCATE apptrackr_users RESTART IDENTITY CASCADE'))
     
     describe('POST /api/users', () => {
-        
-        //happy path
+
         it('create a user and responds 201 and the new user', () => {
             const newUser = {
                 full_name: 'Test fullname',
@@ -205,6 +200,9 @@ describe('Users Endpoints', () => {
                         error: {message: 'Username already exists'}
                     })
             })
+
         })
+
     })
+    
 })

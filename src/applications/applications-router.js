@@ -58,6 +58,7 @@ applicationsRouter
 
 applicationsRouter
     .route('/:application_id')
+    //check that application actually exists for all endpoints with this route
     .all((req, res, next) => {
         const knexInstance = req.app.get('db')
         ApplicationsService.getById(knexInstance, req.params.application_id)
@@ -110,6 +111,7 @@ applicationsRouter
         const bearerToken = authToken.slice(7, authToken.length)
         const base64URL = bearerToken.split('.')[1]
         let base64 = base64URL.replace('-', '+').replace('_', '/')
+        //decode token in order to obtain user_id
         let decodedToken = JSON.parse(Buffer.from(base64, 'base64').toString('binary'))
         const user_id = decodedToken.user_id
         const knexInstance = req.app.get('db')
