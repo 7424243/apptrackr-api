@@ -61,6 +61,7 @@ Example Response:
 
 ### Authorization Endpoint 
 * Required Parameters: user_name (string), password (string)
+* Optional Parameters: none
 * ```POST /auth/login```  >> login using JWT authentication
 
 ## Summary
