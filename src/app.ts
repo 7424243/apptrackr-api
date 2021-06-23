@@ -9,7 +9,8 @@ const usersRouter = require('./users/users-router')
 const applicationsRouter = require('./applications/applications-router')
 const resourcesRouter = require('./resources/resources-router')
 
-const app = express()
+
+export const app = express()
 
 const morganOption = (NODE_ENV === 'production') ? 'tiny' : 'common'
 
@@ -41,5 +42,3 @@ app.use(function errorHandler(error, req, res, next) {
     }
     res.status(500).json(response)
 })
-
-module.exports = app

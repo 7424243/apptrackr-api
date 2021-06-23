@@ -1,8 +1,46 @@
 {
-    "compilerOptions": {
-        "outDir": "./built", //emit all output files here
-        "allowJs": true, //accepts JS files 
-        "target": "ES5",
+    "ts-node": {
+      "transpileOnly": true
     },
-    "include": ["./src/**/*"] //read any files it understands within the src directory
-}
+    "compilerOptions": {
+      "target": "es6",
+      "module": "commonjs",
+      "lib": [
+        "dom",
+        "es6",
+        "es2017",
+        "esnext.asynciterable"
+      ],
+      "sourceMap": true,
+      "outDir": "./built",
+      "moduleResolution": "node",
+      "declaration": false,
+      "composite": false,
+      "removeComments": true,
+      "noImplicitAny": false,
+      "strictNullChecks": false,
+      "strictFunctionTypes": false,
+      "noImplicitThis": false,
+      "noUnusedLocals": false,
+      "noUnusedParameters": false,
+      "noImplicitReturns": false,
+      "noFallthroughCasesInSwitch": true,
+      "allowSyntheticDefaultImports": true,
+      "esModuleInterop": true,
+      "emitDecoratorMetadata": true,
+      "experimentalDecorators": true,
+      "skipLibCheck": true,
+      "baseUrl": "src",
+      "rootDir": "src",
+    },
+    "typedocOptions": {
+      "mode": "modules",
+      "out": "docs"
+    },
+    "exclude": [
+      "node_modules"
+    ],
+    "include": [
+      "./src/**/*"
+    ]
+  }
