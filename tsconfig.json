@@ -1,18 +1,9 @@
 {
-    "ts-node": {
-      "transpileOnly": true
-    },
     "compilerOptions": {
       "target": "es6",
       "module": "commonjs",
-      "lib": [
-        "dom",
-        "es6",
-        "es2017",
-        "esnext.asynciterable"
-      ],
       "sourceMap": true,
-      "outDir": "./built",
+      "outDir": "./dist",
       "moduleResolution": "node",
       "declaration": false,
       "composite": false,
@@ -32,10 +23,7 @@
       "skipLibCheck": true,
       "baseUrl": "src",
       "rootDir": "src",
-    },
-    "typedocOptions": {
-      "mode": "modules",
-      "out": "docs"
+      "allowJs": true,
     },
     "exclude": [
       "node_modules"
