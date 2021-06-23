@@ -1,0 +1,8 @@
+{
+    "compilerOptions": {
+        "outDir": "./built", //emit all output files here
+        "allowJs": true, //accepts JS files 
+        "target": "ES5",
+    },
+    "include": ["./src/**/*"] //read any files it understands within the src directory
+}
