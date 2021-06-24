@@ -1,5 +1,5 @@
-const express = require('express')
-const AuthService = require('./auth-service')
+import express from 'express'
+import AuthService from './auth-service'
 
 const authRouter = express.Router()
 const jsonParser = express.json()
@@ -39,4 +39,4 @@ authRouter
             .catch(next)
     })
 
-module.exports = authRouter
+export default authRouter

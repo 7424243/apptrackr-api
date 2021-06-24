@@ -1,6 +1,6 @@
-const bcrypt = require('bcryptjs')
-const jwt = require('jsonwebtoken')
-const config = require('../config')
+import bcrypt from 'bcryptjs'
+import jwt from 'jsonwebtoken'
+import {JWT_SECRET} from '../config'
 
 const AuthService = {
     getUserWithUsername(db, user_name) {
@@ -12,16 +12,16 @@ const AuthService = {
         return bcrypt.compare(password, hash)
     },
     createJwt(subject, payload) {
-        return jwt.sign(payload, config.JWT_SECRET, {
+        return jwt.sign(payload, JWT_SECRET, {
             subject,
             algorithm: 'HS256'
         })
     },
     verifyJwt(token) {
-        return jwt.verify(token, config.JWT_SECRET, {
+        return jwt.verify(token, JWT_SECRET, {
             algorithms: ['HS256']
         })
     }
 }
 
-module.exports = AuthService
+export default AuthService
