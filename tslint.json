@@ -1,0 +1,38 @@
+{
+    "defaultSeverity": "error",
+    "extends": [
+        "tslint:recommended"
+    ],
+    "jsRules": {
+        "variable-name": {
+            "options": [
+                true,
+                "ban-keywords",
+                "check-format",
+                "allow-pascal-case",
+                "allow-leading-underscore",
+                "allow-snake-case",
+                "allow-trailing-underscore",
+                "require-const-for-all-caps"
+            ]
+        },
+        "no-shadowed-variable": false
+    },
+    "rules": {
+        "trailing-comma": [ false ],
+        "variable-name": {
+            "options": [
+                true,
+                "ban-keywords",
+                "check-format",
+                "allow-pascal-case",
+                "allow-leading-underscore",
+                "allow-snake-case",
+                "allow-trailing-underscore",
+                "require-const-for-all-caps"
+            ]
+        },
+        "no-shadowed-variable": false
+    },
+    "rulesDirectory": []
+}

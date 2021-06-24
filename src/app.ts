@@ -1,13 +1,14 @@
-require('dotenv').config()
-const express = require('express')
-const morgan = require('morgan')
-const cors = require('cors')
-const helmet = require('helmet')
-const {NODE_ENV} = require('./config')
-const authRouter = require('./auth/auth-router')
-const usersRouter = require('./users/users-router')
-const applicationsRouter = require('./applications/applications-router')
-const resourcesRouter = require('./resources/resources-router')
+import dotenv from 'dotenv-safe'
+dotenv.config()
+import express from 'express'
+import morgan from 'morgan'
+import cors from 'cors'
+import helmet from 'helmet'
+import {NODE_ENV} from './config'
+import authRouter from './auth/auth-router'
+import usersRouter from './users/users-router'
+import applicationsRouter from './applications/applications-router'
+import resourcesRouter from './resources/resources-router'
 
 
 export const app = express()
@@ -17,11 +18,11 @@ const morganOption = (NODE_ENV === 'production') ? 'tiny' : 'common'
 app.use(morgan(morganOption))
 app.use(helmet())
 
-//allow CORS for dynamic origins
+// allow CORS for dynamic origins
 const whitelist = ['http://localhost:3000', 'https://apptrackr-client.vercel.app']
 const corsOptions = {
-    origin: function(origin, callback) {
-        let originWhitelisted = whitelist.indexOf(origin) !== -1
+    origin(origin, callback) {
+        const originWhitelisted = whitelist.indexOf(origin) !== -1
         callback(null, originWhitelisted)
     }
 }
@@ -37,6 +38,7 @@ app.use(function errorHandler(error, req, res, next) {
     if(NODE_ENV === 'production') {
         response={error: {message: 'server error'}}
     } else {
+        // tslint:disable-next-line:no-console
         console.error(error)
         response = {message: error.message, error}
     }

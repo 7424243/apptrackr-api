@@ -19,6 +19,7 @@ function requireAuth(req, res, next) {
                 next()
             })
             .catch(err => {
+                // tslint:disable-next-line:no-console
                 console.error(err)
                 next(err)
             })
