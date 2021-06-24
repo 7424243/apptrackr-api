@@ -1,16 +1,22 @@
-const express = require('express')
-const xss = require('xss')
-const ResourcesService = require('./resources-service')
-const path = require('path')
-const {requireAuth} = require('../middleware/jwt-auth')
-const config = require('../config')
-const jwt = require('jsonwebtoken')
-const app = require('../app')
+import express from 'express'
+import xss from 'xss'
+import ResourcesService from './resources-service'
+import path from 'path'
+import {requireAuth} from '../middleware/jwt-auth'
 
 const resourcesRouter = express.Router()
 const jsonParser = express.json()
 
-const serializeResource = resource => ({
+interface IResource {
+    id?: number,
+    resource_name: string,
+    resource_url: string,
+    type: string,
+    notes?: string,
+    user_id: string,
+}
+
+const serializeResource = (resource): IResource => ({
     id: resource.id,
     resource_name: xss(resource.resource_name),
     resource_url: xss(resource.resource_url),
@@ -23,7 +29,7 @@ resourcesRouter
     .route('/')
     .post(requireAuth, jsonParser, (req, res, next) => {
         const {resource_name, resource_url, type, notes, user_id} = req.body
-        const newResource = {resource_name, resource_url, type, user_id}
+        const newResource: IResource = {resource_name, resource_url, type, user_id}
         //required fields: resource_name, resource_url, type, user_id
         for(const [key, value] of Object.entries(newResource))
             if(value == null) {
@@ -87,4 +93,4 @@ resourcesRouter
             .catch(next)
     })
 
-module.exports = resourcesRouter
+export default resourcesRouter

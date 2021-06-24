@@ -28,4 +28,4 @@ const ResourcesService = {
     }
 }
 
-module.exports = ResourcesService
+export default ResourcesService
