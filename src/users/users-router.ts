@@ -1,12 +1,20 @@
-const express = require('express')
-const xss = require('xss')
-const UsersService = require('./users-service')
-const path = require('path')
+import express from 'express'
+import xss from 'xss'
+import UsersService from './users-service'
+import path from 'path'
 
 const usersRouter = express.Router()
 const jsonParser = express.json()
 
-const serializeUser = user => ({
+interface IUser {
+    id: number,
+    full_name: string,
+    user_name: string,
+    password: string,
+    date_created: Date,
+}
+
+const serializeUser = (user): IUser => ({
     id: user.id,
     full_name: xss(user.full_name),
     user_name: xss(user.user_name),
@@ -17,8 +25,8 @@ const serializeUser = user => ({
 usersRouter
     .route('/')
     .post(jsonParser, (req, res, next) => {
-        const {full_name, user_name, password} = req.body
-        const newUser = {full_name, user_name, password}
+        const {full_name, user_name, password, id, date_created} = req.body
+        const newUser: IUser = {full_name, user_name, password, id, date_created}
         //required fields: full_name, user_name, password
         for(const [key, value] of Object.entries(newUser))
             if(value == null) {
@@ -62,4 +70,4 @@ usersRouter
             .catch(next)
     })
 
-    module.exports = usersRouter
+export default usersRouter
