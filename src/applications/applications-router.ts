@@ -1,16 +1,28 @@
-const express = require('express')
-const xss = require('xss')
-const ApplicationsService = require('./applications-service')
-const path = require('path')
-const {requireAuth} = require('../middleware/jwt-auth')
-const config = require('../config')
-const jwt = require('jsonwebtoken')
-const app = require('../app')
+import express from 'express'
+import xss from 'xss'
+import ApplicationsService from './applications-service'
+import path from 'path'
+import {requireAuth} from '../middleware/jwt-auth'
 
 const applicationsRouter = express.Router()
 const jsonParser = express.json()
 
-const serializeApplication = application => ({
+interface IApplication {
+    id?: number,
+    job_name: string,
+    company_name: string,
+    website_url?: string,
+    date_applied?: string,
+    contact_name?: string,
+    contact_phone?: string,
+    contact_email?: string,
+    interview_date?: string,
+    status: string,
+    notes?: string,
+    user_id: number,
+}
+
+const serializeApplication = (application: IApplication): IApplication => ({
     id: application.id,
     job_name: xss(application.job_name),
     company_name: xss(application.company_name),
@@ -29,7 +41,7 @@ applicationsRouter
     .route('/')
     .post(requireAuth, jsonParser, (req, res, next) => {
         const {job_name, company_name, website_url, date_applied, contact_name, contact_phone, contact_email, interview_date, status, notes, user_id} = req.body
-        const newApplication = {job_name, company_name, status, user_id}
+        const newApplication: IApplication = {job_name, company_name, status, user_id}
         //required fields: job_name, company_name, user_id
         for(const [key, value] of Object.entries(newApplication))
             if(value == null) {
@@ -38,12 +50,12 @@ applicationsRouter
                 })
             }
         //optional fields
-        newApplication.website_url = website_url,
-        newApplication.date_applied = date_applied,
-        newApplication.contact_name = contact_name,
-        newApplication.contact_phone = contact_phone,
-        newApplication.contact_email = contact_email,
-        newApplication.interview_date = interview_date,
+        newApplication.website_url = website_url
+        newApplication.date_applied = date_applied
+        newApplication.contact_name = contact_name
+        newApplication.contact_phone = contact_phone
+        newApplication.contact_email = contact_email
+        newApplication.interview_date = interview_date
         newApplication.notes = notes
         const knexInstance = req.app.get('db')
         ApplicationsService.insertApplication(knexInstance, newApplication)
@@ -77,8 +89,8 @@ applicationsRouter
         res.json(serializeApplication(res.application))
     })
     .patch(requireAuth, jsonParser, (req, res, next) => {
-        const {job_name, company_name, website_url, date_applied, contact_name, contact_phone, contact_email, interview_date, status, notes} = req.body
-        const applicationToUpdate = {job_name, company_name, website_url, date_applied, contact_name, contact_phone, contact_email, interview_date, status, notes}
+        const {user_id, job_name, company_name, website_url, date_applied, contact_name, contact_phone, contact_email, interview_date, status, notes} = req.body
+        const applicationToUpdate: IApplication = {user_id, job_name, company_name, website_url, date_applied, contact_name, contact_phone, contact_email, interview_date, status, notes}
         const numberOfValues = Object.values(applicationToUpdate).filter(Boolean).length
         if(numberOfValues === 0) {
             return res.status(400).json({
@@ -122,4 +134,4 @@ applicationsRouter
             .catch(next)
     })
 
-module.exports = applicationsRouter
+export default applicationsRouter

@@ -37,4 +37,4 @@ const ApplicationsService = {
     }
 }
 
-module.exports = ApplicationsService
+export default ApplicationsService
