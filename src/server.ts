@@ -1,4 +1,4 @@
-const knex = require('knex')
+import knex from 'knex'
 import {app} from './app'
 import {PORT, DATABASE_URL} from './config'
 
