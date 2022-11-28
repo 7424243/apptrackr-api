@@ -1,0 +1,24 @@
+{
+"apptrackr_users": [
+	{
+		"id" : 1,
+		"full_name" : "Sam Sheets",
+		"user_name" : "samsheets",
+		"password" : "$2a$12$RUMtC8lFChdKUYHzzOIzq.sqKRvCIr7bfiJ88uJehO69ELyF8dYa.",
+		"date_created" : "2021-03-04T22:24:00.118Z"
+	},
+	{
+		"id" : 2,
+		"full_name" : "Demo",
+		"user_name" : "demo",
+		"password" : "$2a$12$1rljFgzxOw1UiN6xbeR\/6euj0Y\/5UBX2aJmIIZB83ZT3u9IcMjEBi",
+		"date_created" : "2021-03-06T23:50:00.828Z"
+	},
+	{
+		"id" : 5,
+		"full_name" : "Test Person",
+		"user_name" : "test",
+		"password" : "$2a$12$SMo4apAAsDh8SiMNoxlhgO0OrP2lv2xk17204rGbiOpYV11IH5dRO",
+		"date_created" : "2021-03-11T20:45:36.975Z"
+	}
+]}

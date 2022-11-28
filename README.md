@@ -4,8 +4,29 @@ This API was originally built for [apptrackr](https://github.com/7424243/apptrac
 
 ## Documentation
 
-* Base URL: 'https://peaceful-dawn-10295.herokuapp.com/api'
+* Base URL: 'http://localhost:8000/api'
 * Response Format: JSON
+* Database: apptrackr
+* Owner: samsheets
+
+### Server and Database Connection
+After the Heroku plan updates, the server and database need to be running *locally* in order for the fullstack application to work as expected.
+
+1. Start Server:
+```
+npm run start
+```
+
+2. Start Database in Terminal:
+```
+/usr/local/opt/postgresql@13/bin/postgres -D /usr/local/var/postgresql@13
+```
+
+OR,
+2. Start Database in Terminal in the Background:
+```
+brew services restart postgresql@13
+```
 
 ### Applications Endpoints
 
@@ -74,3 +95,9 @@ This server was created in order to easily organize job applications. The databa
 * Express
 * PostgreSQL
 * JavaScript
+
+## Heroku Deprecated Info
+Heroku plan changes went into effect 11/28/22. As of that date, the server and database are no longer actively deployed there.
+
+* The database dump can be found in the `herokuDbDump` folder.
+* Old server api: https://peaceful-dawn-10295.herokuapp.com/api

@@ -1,0 +1,99 @@
+{
+"apptrackr_resources": [
+	{
+		"id" : 1,
+		"resource_name" : "fiverr",
+		"resource_url" : "https:\/\/www.fiverr.com\/",
+		"type" : "Job Resource",
+		"notes" : null,
+		"user_id" : 1
+	},
+	{
+		"id" : 2,
+		"resource_name" : "Chegg Internships",
+		"resource_url" : "https:\/\/www.internships.com\/",
+		"type" : "Job Resource",
+		"notes" : null,
+		"user_id" : 1
+	},
+	{
+		"id" : 3,
+		"resource_name" : "Resume Optimizer",
+		"resource_url" : "https:\/\/skillsyncer.com\/",
+		"type" : "Other Resource",
+		"notes" : null,
+		"user_id" : 1
+	},
+	{
+		"id" : 27,
+		"resource_name" : "cover-letter-template",
+		"resource_url" : "https:\/\/docs.google.com\/document\/d\/1PxgxuAJrS5OtFjU8L37RCh2-2nSQQS7hJ6B1UR8qDtw\/edit",
+		"type" : "Other Resource",
+		"notes" : null,
+		"user_id" : 1
+	},
+	{
+		"id" : 5,
+		"resource_name" : "Chegg Internships",
+		"resource_url" : "https:\/\/www.internships.com\/",
+		"type" : "Job Resource",
+		"notes" : null,
+		"user_id" : 2
+	},
+	{
+		"id" : 6,
+		"resource_name" : "Resume Optimzer",
+		"resource_url" : "https:\/\/skillsyncer.com\/",
+		"type" : "Other Resource",
+		"notes" : null,
+		"user_id" : 2
+	},
+	{
+		"id" : 7,
+		"resource_name" : "fiverr",
+		"resource_url" : "https:\/\/www.fiverr.com\/",
+		"type" : "Job Resource",
+		"notes" : null,
+		"user_id" : 2
+	},
+	{
+		"id" : 28,
+		"resource_name" : "GitHub",
+		"resource_url" : "https:\/\/github.com\/7424243",
+		"type" : "Other Resource",
+		"notes" : null,
+		"user_id" : 1
+	},
+	{
+		"id" : 29,
+		"resource_name" : "LinkedIn",
+		"resource_url" : "https:\/\/www.linkedin.com\/in\/samantha-sheets-dev\/",
+		"type" : "Other Resource",
+		"notes" : null,
+		"user_id" : 1
+	},
+	{
+		"id" : 30,
+		"resource_name" : "Portfolio",
+		"resource_url" : "https:\/\/7424243.github.io\/Portfolio\/",
+		"type" : "Other Resource",
+		"notes" : null,
+		"user_id" : 1
+	},
+	{
+		"id" : 24,
+		"resource_name" : "Lyft Apprentices",
+		"resource_url" : "https:\/\/www.lyft.com\/careers\/university",
+		"type" : "Job Resource",
+		"notes" : null,
+		"user_id" : 1
+	},
+	{
+		"id" : 25,
+		"resource_name" : "thoughtbot",
+		"resource_url" : "https:\/\/thoughtbot.com\/jobs",
+		"type" : "Job Resource",
+		"notes" : null,
+		"user_id" : 1
+	}
+]}
